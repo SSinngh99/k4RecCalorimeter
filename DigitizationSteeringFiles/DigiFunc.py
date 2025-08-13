@@ -36,19 +36,19 @@ CaloDigitizer = CaloDigitizerFunc("CaloDigitizerFunc",
                                 signalFileName=ecalBarrelSignalShapePath, # Path to a file that stores all cell IDs
                                 treename="Signal_shape", # Treename to access the cell IDs in the above file
                                 InputCollection=[ecalBarrelInputName], # Name of input collection
-                                pulseInitTime = 0.0, # Time of pulse start [ns]
-                                pulseEndTime = 775.0, # Time of pulse ending [ns]
-                                pulseSamplingLength = 31, # Number of samples in the signal pulse shape
+                                pulseInitTime = DigitInitTime, # Time of pulse start [ns]
+                                pulseEndTime = DigitEndTime, # Time of pulse ending [ns]
+                                pulseSamplingLength = PulseSampleLen, # Number of samples in the signal pulse shape
                                 pulseType = "Gaussian", # Name of the signal pulse shape
-                                mu = 100.0, # Mean of the Gaussian pulse shape
-                                sigma = 20.0, # Sigma of the Gaussian pulse shape
+                                mu = GaussianMean, # Mean of the Gaussian pulse shape
+                                sigma = GaussianSigma, # Sigma of the Gaussian pulse shape
                                 OutputCollection=["ECalBarrelDigitized"], # Name of output collection
                                 )
 
 CaloAddNoise = CaloAddNoise2Digits("CaloAddNoise",
-                                   InputCollection=["ECalBarrelDigitized"],
-                                   OutputCollection=["ECalBarrelDigitizedWithNoise"],
-                                   noiseEnergy=NoiseEnergy,
+                                   InputCollection=["ECalBarrelDigitized"], # Name of input collection - comes from the output of CaloDigitizerFunc so it should be "ECalBarrelDigitized"
+                                   OutputCollection=["ECalBarrelDigitizedWithNoise"], # Name of output collection
+                                   noiseEnergy=NoiseEnergy, # Digitized with noise = Digit + Noise energy * Gaussian(0, NoiseWidth)
                                    noiseWidth=NoiseWidth,
                                    )
 
@@ -70,7 +70,8 @@ CaloFilter = CaloFilterFunc("CaloFilterFunc",
                             cellCount = CellCount,
                             )
 
-ApplicationMgr(TopAlg=[CaloDigitizer, 
+
+ApplicationMgr(TopAlg=[CaloDigitizer, # The order we want to execute the algorithms in
                        CaloAddNoise,
                        CaloFilter,
                        ],
