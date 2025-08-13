@@ -9,12 +9,13 @@ PulseSampleLen = 31                   # number of samples in the signal pulse sh
 ecalBarrelInputName = "ECalBarrelModuleThetaMerged"  # name of the ECal barrel readout in input file
 ecalBarrelSignalShapePath = "SignalPulseShapes.root"  # path to the root file with the signal pulse shapes
 PulseShapeName = "Gaussian"             # name of the signal pulse shape
-GaussianMean = 100.0
+GaussianMean = 120.0
 GaussianSigma = 20.0
 FilterSize = 5
 
-NoiseEnergy = 0.0 # In GeV!!
+NoiseEnergy = 0.00001 # 1 GeV
 NoiseWidth = 1.0
+CellCount = 100
 
 
 io_svc = IOSvc()
@@ -58,12 +59,15 @@ CaloFilter = CaloFilterFunc("CaloFilterFunc",
                             OutputCollectionMatchedSampleEnergy = ["ECalBarrelMatchedFilterSampleEnergy"], # Name of output collection
                             
                             filterName = "Matched_Gaussian", # Name of the filter template
-                            pulseInitTime = DigitInitTime, # Time of pulse start [ns]
-                            pulseEndTime = DigitEndTime, # Time of pulse ending [ns]
-                            pulseSamplingLength = PulseSampleLen, # Number of samples in the signal pulse shape
-                            filterTemplateSize = FilterSize, # Number of samples in the filter template
-                            mu = GaussianMean, # Mean of the Gaussian pulse shape
-                            sigma = GaussianSigma, # Sigma of the Gaussian pulse shape
+                            pulseInitTime = 0.0, # Time of pulse start [ns]
+                            pulseEndTime = 775.0, # Time of pulse ending [ns]
+                            pulseSamplingLength = 31, # Number of samples in the signal pulse shape
+                            filterTemplateSize = 5, # Number of samples in the filter template
+                            mu = 100.0, # Mean of the Gaussian pulse shape
+                            sigma = 20.0, # Sigma of the Gaussian pulse shape
+                            noiseEnergy = NoiseEnergy,
+                            noiseWidth = NoiseWidth,
+                            cellCount = CellCount,
                             )
 
 

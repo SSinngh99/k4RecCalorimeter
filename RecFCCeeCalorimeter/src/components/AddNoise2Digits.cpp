@@ -92,6 +92,8 @@
 
    StatusCode finalize() override{return StatusCode::SUCCESS;}
 
+  
+
  
  private:
   Gaudi::Property<float> m_noiseEnergy {this, "noiseEnergy", 0.1, "Noise energy to scale Gaussian by - GeV" };
