@@ -24,7 +24,7 @@ WhiteningFilterName2Apply = "ZCA"       # Algorithm to calculate whitening filte
 
 io_svc = IOSvc()
 
-io_svc.Input = "ALLEGRO_sim" # Input filename from ddsim
+io_svc.Input = "ALLEGRO_sim_ee_z_qq.root" # Input filename from ddsim
 
 io_svc.Output = "output_digitization_matched_filter.root" # Output filename
 
